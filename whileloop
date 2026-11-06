@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<conio.h>
+
+void main()
+{
+    int choice;
+    float a, b, result;
+
+    clrscr();
+
+    while(1)
+    {
+        printf("\n===== CALCULATOR =====");
+        printf("\n1. Addition");
+        printf("\n2. Subtraction");
+        printf("\n3. Multiplication");
+        printf("\n4. Division");
+        printf("\n5. Exit");
+
+        printf("\n\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        if(choice == 5)
+        {
+            printf("\nThank You!");
+            break;
+        }
+
+        if(choice >= 1 && choice <= 4)
+        {
+            printf("\nEnter two numbers: ");
+            scanf("%f%f", &a, &b);
+
+            switch(choice)
+            {
+                case 1:
+                    result = a + b;
+                    printf("\nAddition = %.2f", result);
+                    break;
+
+                case 2:
+                    result = a - b;
+                    printf("\nSubtraction = %.2f", result);
+                    break;
+
+                case 3:
+                    result = a * b;
+                    printf("\nMultiplication = %.2f", result);
+                    break;
+
+                case 4:
+                    if(b != 0)
+                    {
+                        result = a / b;
+                        printf("\nDivision = %.2f", result);
+                    }
+                    else
+                    {
+                        printf("\nCannot divide by zero!");
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            printf("\nInvalid Choice!");
+        }
+    }
+
+    getch();
+}
