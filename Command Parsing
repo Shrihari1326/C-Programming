@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <string.h>
+
+void main()
+{
+    char cmd[20];
+
+    clrscr();
+
+    printf("Enter command (START / STOP): ");
+    gets(cmd);
+
+    if (strcmp(cmd, "START") == 0)
+        printf("System started.");
+    else if (strcmp(cmd, "STOP") == 0)
+        printf("System stopped.");
+    else
+        printf("Unknown command");
+
+    getch();
+}
