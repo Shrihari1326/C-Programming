@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <limits.h>
+
+#define SENSOR_COUNT 10
+
+// Function prototypes
+float calculateAverage(const int data[], int size);
+int findMaximum(const int data[], int size);
+int findMinimum(const int data[], int size);
+void performScaleAndOffset(const int input[], int output[], int size, float scale, int offset);
+
+int main() {
+    // Simulated raw sensor data (e.g., ADC integer readings from a temperature sensor)
+    int rawSensorData[SENSOR_COUNT] = {512, 520, 505, 530, 515, 525, 510, 535, 540, 528};
+    int processedData[SENSOR_COUNT];
+    
+    // Constants for calibration (y = mx + c)
+    float scaleFactor = 0.0805; // Example: converting ADC counts to mV or degrees
+    int offsetValue = 5;       // Calibration offset
+
+    printf("=== SENSOR DATA ARITHMETIC OPERATIONS ===\n\n");
+
+    // 1. Display Raw Data
+    printf("Raw Sensor Readings: ");
+    for (int i = 0; i < SENSOR_COUNT; i++) {
+        printf("%d ", rawSensorData[i]);
+    }
+    printf("\n\n");
+
+    // 2. Statistical Operations
+    float avg = calculateAverage(rawSensorData, SENSOR_COUNT);
+    int maxVal = findMaximum(rawSensorData, SENSOR_COUNT);
+    int minVal = findMinimum(rawSensorData, SENSOR_COUNT);
+
+    printf("--- Statistical Calculations ---\n");
+    printf("Average Value : %.2f\n", avg);
+    printf("Maximum Value : %d\n", maxVal);
+    printf("Minimum Value : %d\n", minVal);
+    printf("\n");
+
+    // 3. Element-wise Arithmetic (Scaling & Offsetting / Calibration)
+    // Formula: output = (input * scale) + offset
+    performScaleAndOffset(rawSensorData, processedData, SENSOR_COUNT, scaleFactor, offsetValue);
+
+    printf("--- Scaled & Calibrated Data (Floating-point representation) ---\n");
+    for (int i = 0; i < SENSOR_COUNT; i++) {
+        float calibrated = (rawSensorData[i] * scaleFactor) + offsetValue;
+        printf("Sensor [%d]: Raw = %d -> Calibrated = %.2f\n", i, rawSensorData[i], calibrated);
+    }
+
+    return 0;
+}
+
+// Function to calculate the average of sensor readings
+float calculateAverage(const int data[], int size) {
+    long sum = 0; // Use long to prevent integer overflow for large datasets
+    for (int i = 0; i < size; i++) {
+        sum += data[i];
+    }
+    return (float)sum / size;
+}
+
+// Function to find the maximum sensor value
+int findMaximum(const int data[], int size) {
+    int max = INT_MIN;
+    for (int i = 0; i < size; i++) {
+        if (data[i] > max) {
+            max = data[i];
+        }
+    }
+    return max;
+}
+
+// Function to find the minimum sensor value
+int findMinimum(const int data[], int size) {
+    int min = INT_MAX;
+    for (int i = 0; i < size; i++) {
+        if (data[i] < min) {
+            min = data[i];
+        }
+    }
+    return min;
+}
+
+// Function to apply scaling and offset to sensor array
+void performScaleAndOffset(const int input[], int output[], int size, float scale, int offset) {
+    for (int i = 0; i < size; i++) {
+        // Performing multiplication and addition
+        output[i] = (int)((input[i] * scale) + offset);
+    }
+}
